@@ -6,6 +6,7 @@ use serde::Deserialize;
 #[derive(Debug, Parser)]
 #[clap(author, version, about)]
 pub struct ScaffoldCliArgs {
+    /// Choose a different config directory
     #[clap(short, long, value_name = "directory")]
     pub config: Option<PathBuf>,
 
@@ -15,12 +16,14 @@ pub struct ScaffoldCliArgs {
 
 #[derive(Debug, Subcommand)]
 pub enum CliCommands {
+    /// Create a new project
     Create {
         #[clap(value_parser, value_name = "name")]
         name: String,
         #[clap(value_parser, value_name = "location")]
         location: PathBuf,
     },
+    /// List available projects
     List,
 }
 
