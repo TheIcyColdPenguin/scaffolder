@@ -10,7 +10,7 @@ pub struct ScaffoldArgs {
     pub config: Option<PathBuf>,
 
     #[clap(subcommand)]
-    pub command: Option<Commands>,
+    pub command: Commands,
 }
 
 #[derive(Debug, Subcommand)]
