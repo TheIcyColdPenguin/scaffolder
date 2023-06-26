@@ -30,17 +30,16 @@ pub struct ScaffoldOptions {
     pub command: CliCommands,
 }
 
-#[derive(Debug, Clone)]
-pub enum Commands {
-    Create { name: String, location: PathBuf },
-    List,
+#[derive(Debug, Deserialize)]
+pub struct Projects {
+    pub projects: Option<Vec<ProjectScaffold>>,
 }
 
 #[derive(Debug, Deserialize)]
 pub struct ProjectScaffold {
-    names: Vec<String>,
-    description: String,
-    commands: Vec<Command>,
+    pub names: Vec<String>,
+    pub description: String,
+    pub commands: Vec<Command>,
 }
 
 #[derive(Debug, Deserialize)]

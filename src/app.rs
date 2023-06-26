@@ -21,7 +21,7 @@ use crate::{
 
 #[derive(Debug)]
 pub struct App {
-    options: ScaffoldOptions,
+    pub options: ScaffoldOptions,
 }
 
 impl App {
