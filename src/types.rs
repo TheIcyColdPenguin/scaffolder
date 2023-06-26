@@ -58,11 +58,3 @@ pub enum Command {
         replacements: Vec<String>,
     },
 }
-
-pub enum TextMod {
-    Red,
-    Green,
-    Blue,
-    Bold,
-    Clear,
-}
