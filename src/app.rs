@@ -14,18 +14,26 @@ scaffolder config folder
 
 */
 
-use crate::{types::ScaffoldArgs, verify_config::VerifyConfig};
+use crate::{
+    types::{ScaffoldCliArgs, ScaffoldOptions},
+    verify_config::VerifyConfig,
+};
 
 #[derive(Debug)]
 pub struct App {
-    args: ScaffoldArgs,
+    options: ScaffoldOptions,
 }
 
 impl App {
-    pub fn new(mut args: ScaffoldArgs) -> Result<App, Box<dyn std::error::Error>> {
-        Self::verify_args(&mut args)?;
+    pub fn new(mut args: ScaffoldCliArgs) -> Result<App, Box<dyn std::error::Error>> {
+        let config = Self::verify_config(&mut args)?;
 
-        Ok(App { args })
+        Ok(App {
+            options: ScaffoldOptions {
+                config,
+                command: args.command,
+            },
+        })
     }
 }
 

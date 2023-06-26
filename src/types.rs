@@ -5,16 +5,16 @@ use serde::Deserialize;
 
 #[derive(Debug, Parser)]
 #[clap(author, version, about)]
-pub struct ScaffoldArgs {
+pub struct ScaffoldCliArgs {
     #[clap(short, long, value_name = "directory")]
     pub config: Option<PathBuf>,
 
     #[clap(subcommand)]
-    pub command: Commands,
+    pub command: CliCommands,
 }
 
 #[derive(Debug, Subcommand)]
-pub enum Commands {
+pub enum CliCommands {
     Create {
         #[clap(value_parser, value_name = "name")]
         name: String,
@@ -24,8 +24,20 @@ pub enum Commands {
     List,
 }
 
+#[derive(Debug)]
+pub struct ScaffoldOptions {
+    pub config: PathBuf,
+    pub command: CliCommands,
+}
+
+#[derive(Debug, Clone)]
+pub enum Commands {
+    Create { name: String, location: PathBuf },
+    List,
+}
+
 #[derive(Debug, Deserialize)]
-pub struct Scaffold {
+pub struct ProjectScaffold {
     names: Vec<String>,
     description: String,
     commands: Vec<Command>,
