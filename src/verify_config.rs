@@ -1,5 +1,6 @@
 use std::{fs, path::PathBuf};
 
+use colored::Colorize;
 use directories::ProjectDirs;
 
 use crate::types::ScaffoldCliArgs;
@@ -18,9 +19,26 @@ pub trait VerifyConfig {
         fs::create_dir_all(config_dir.join("templates"))?;
         fs::create_dir_all(config_dir.join("premade"))?;
 
-        let _config_file = fs::OpenOptions::new()
+        let config_file_path = config_dir.join("scaffolder.toml");
+        let config_file = fs::OpenOptions::new()
             .create_new(true)
-            .open(config_dir.join("scaffolder.toml"));
+            .append(true)
+            .open(&config_file_path);
+
+        match config_file {
+            Ok(_) => println!(
+                "Created config file at '{}'",
+                config_file_path.display().to_string().green().bold()
+            ),
+            Err(_) => {
+                if args.config.is_some() {
+                    println!(
+                        "Found config file at '{}'",
+                        config_file_path.display().to_string().green().bold()
+                    )
+                }
+            }
+        }
 
         Ok(config_dir)
     }
