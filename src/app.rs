@@ -46,6 +46,8 @@ impl App {
 
         let config_file = fs::File::options()
             .read(true)
+            .create(true)
+            .append(true)
             .open(config_dir.join("scaffolder.toml"));
 
         dbg!(&config_file);
