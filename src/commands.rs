@@ -28,15 +28,22 @@ impl App {
                 writeln!(stdlock, "All projects -")?;
 
                 for project in projects {
-                    let mut iter = project.names.into_iter().peekable();
-                    while let Some(name) = iter.next() {
-                        if iter.peek().is_some() {
-                            write!(stdlock, "{} | ", name.green())?;
-                        } else {
-                            write!(stdlock, "{} : ", name.green())?;
-                        }
-                    }
-                    writeln!(stdlock, "{}", project.description.bold())?;
+                    let green_names: Vec<_> = project
+                        .names
+                        .iter()
+                        .map(|name| name.green().to_string())
+                        .collect();
+
+                    writeln!(
+                        stdlock,
+                        "{}",
+                        format!(
+                            "{all: <width$} : {desc: <30}",
+                            all = green_names.join(" | "),
+                            desc = project.description.bold(),
+                            width = if green_names.len() == 1 { 31 } else { 40 }
+                        )
+                    )?;
                 }
             }
         };
