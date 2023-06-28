@@ -58,7 +58,7 @@ impl App {
 
     fn create(&self, name: &str, location: &Path) -> Result<(), Box<dyn std::error::Error>> {
         Self::verify_location(location)?;
-        let project = dbg!(self.find_project(name)?);
+        let project = self.find_project(name)?;
         let premade_dir = self.options.get_premade_directory_path();
         let template_dir = self.options.get_template_directory_path();
 
