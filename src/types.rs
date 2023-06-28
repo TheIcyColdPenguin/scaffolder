@@ -18,8 +18,10 @@ pub struct ScaffoldCliArgs {
 pub enum CliCommands {
     /// Create a new project
     Create {
-        #[clap(value_parser, value_name = "name")]
+        /// Choose the kind of project - to see all projects, run `scaffolder list`
+        #[clap(value_parser, value_name = "project kind")]
         name: String,
+        /// Where to create the project
         #[clap(value_parser, value_name = "location")]
         location: PathBuf,
     },
@@ -48,21 +50,19 @@ pub struct ProjectScaffold {
 #[derive(Debug, Deserialize)]
 #[serde(tag = "type")]
 pub enum CommandKind {
-    SingleCommand {
-        command: String,
-        args: Vec<String>,
-    },
-    CopyFile {
-        src_file: String,
-        dest_file: String,
-    },
+    #[serde(rename = "command")]
+    SingleCommand { command: String, args: Vec<String> },
+
+    #[serde(rename = "copy")]
+    CopyFile { src_file: String, dest_file: String },
+
+    #[serde(rename = "template")]
     TemplateFile {
         template: String,
         dest_file: String,
         replacements: HashMap<String, String>,
     },
-    CreateFile {
-        file: String,
-        contents: String,
-    },
+
+    #[serde(rename = "create")]
+    CreateFile { file: String, contents: String },
 }
