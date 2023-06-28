@@ -163,6 +163,7 @@ impl CommandKind {
 
                 Command::new(command)
                     .args(args)
+                    .current_dir(project_location.canonicalize()?)
                     .stdin(Stdio::inherit())
                     .stdout(Stdio::inherit())
                     .stderr(Stdio::inherit())
