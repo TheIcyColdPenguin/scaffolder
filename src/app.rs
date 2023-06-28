@@ -2,10 +2,9 @@
 scaffolder config folder
 ├───scaffolder.toml
 ├───templates
-│   │
 │   ├───index.html
 │   └───package.json
-└───premade
+└───premades
     ├───project-name
     │   └───lib.rs
     └───project-name

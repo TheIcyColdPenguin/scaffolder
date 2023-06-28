@@ -1,4 +1,4 @@
-use std::path::PathBuf;
+use std::{collections::HashMap, path::PathBuf};
 
 use clap::{Parser, Subcommand};
 use serde::Deserialize;
@@ -42,21 +42,27 @@ pub struct Projects {
 pub struct ProjectScaffold {
     pub names: Vec<String>,
     pub description: String,
-    pub commands: Vec<Command>,
+    pub commands: Vec<CommandKind>,
 }
 
 #[derive(Debug, Deserialize)]
-pub enum Command {
-    SimpleCommand {
+#[serde(tag = "type")]
+pub enum CommandKind {
+    SingleCommand {
         command: String,
         args: Vec<String>,
     },
     CopyFile {
-        old_file: String,
-        new_file: String,
+        src_file: String,
+        dest_file: String,
     },
-    TextTemplate {
+    TemplateFile {
+        template: String,
+        dest_file: String,
+        replacements: HashMap<String, String>,
+    },
+    CreateFile {
         file: String,
-        replacements: Vec<String>,
+        contents: String,
     },
 }
