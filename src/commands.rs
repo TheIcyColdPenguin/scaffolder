@@ -159,7 +159,12 @@ impl CommandKind {
                 Ok(())
             }
             CommandKind::SingleCommand { command, args } => {
-                println!("Running '{}'.", command.green());
+                println!(
+                    "Running '{}{}{}'.",
+                    command.green(),
+                    if args.is_empty() { "" } else { " " },
+                    args.join(" ").trim().green()
+                );
 
                 Command::new(command)
                     .args(args)
