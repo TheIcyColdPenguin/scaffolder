@@ -36,6 +36,7 @@ dist/*
 [[projects.commands]]
 type = "template"
 template = "index.html"
+dest_file = "dist/index.html"
 [projects.commands.replacements]
 title = "Typescript & Webpack"
 head = ""
@@ -44,6 +45,7 @@ body = """<script src="./bundle.js"></script>"""
 [[projects.commands]]
 type = "template"
 template = "package.json"
+dest_file = "package.json"
 [projects.commands.replacements]
 main = ""
 type = "commonjs"
