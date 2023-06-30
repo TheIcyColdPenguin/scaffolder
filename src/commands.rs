@@ -11,7 +11,7 @@ use colored::Colorize;
 
 use crate::{
     app::App,
-    types::{CliCommands, CommandKind, ProjectScaffold},
+    types::{CliCommands, ProjectScaffold, Step},
 };
 
 impl App {
@@ -64,8 +64,8 @@ impl App {
         let premade_dir = self.options.get_premade_directory_path();
         let template_dir = self.options.get_template_directory_path();
 
-        for command in project.commands {
-            command.run(&premade_dir, &template_dir, location)?;
+        for step in project.steps {
+            step.run(&premade_dir, &template_dir, location)?;
         }
 
         Ok(())
@@ -100,7 +100,7 @@ impl App {
     }
 }
 
-impl CommandKind {
+impl Step {
     pub fn run(
         &self,
         premade_location: &Path,
@@ -108,7 +108,7 @@ impl CommandKind {
         project_location: &Path,
     ) -> Result<(), Box<dyn std::error::Error>> {
         match self {
-            CommandKind::CopyFile {
+            Step::CopyFile {
                 src_file,
                 dest_file,
             } => {
@@ -126,7 +126,7 @@ impl CommandKind {
 
                 Ok(())
             }
-            CommandKind::CreateFile { file, contents } => {
+            Step::CreateFile { file, contents } => {
                 let dest = project_location.join(file);
 
                 println!("Creating file '{}'.", dest.to_string_lossy().green(),);
@@ -136,7 +136,7 @@ impl CommandKind {
 
                 Ok(())
             }
-            CommandKind::TemplateFile {
+            Step::TemplateFile {
                 template,
                 dest_file,
                 replacements,
@@ -160,7 +160,7 @@ impl CommandKind {
 
                 Ok(())
             }
-            CommandKind::SingleCommand { command, args } => {
+            Step::SingleCommand { command, args } => {
                 println!(
                     "Running '{}{}{}'.",
                     command.green(),
@@ -179,7 +179,7 @@ impl CommandKind {
 
                 Ok(())
             }
-            CommandKind::MultiCommand { command } => {
+            Step::MultiCommand { command } => {
                 println!("Running long command '{}'", command.green());
                 let c_command = CString::new(command.as_bytes())?;
 
@@ -193,7 +193,7 @@ impl CommandKind {
 
                 Ok(())
             }
-            CommandKind::AppendFile { file, contents } => {
+            Step::AppendFile { file, contents } => {
                 let dest = project_location.join(file);
 
                 println!("Appending to file '{}'", dest.to_string_lossy().green());
@@ -205,7 +205,7 @@ impl CommandKind {
 
                 Ok(())
             }
-            CommandKind::RemoveFile { file } => {
+            Step::RemoveFile { file } => {
                 let file = project_location.join(file);
 
                 println!("Deleting file '{}'", file.to_string_lossy().green());

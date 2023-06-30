@@ -44,12 +44,12 @@ pub struct Projects {
 pub struct ProjectScaffold {
     pub names: Vec<String>,
     pub description: String,
-    pub commands: Vec<CommandKind>,
+    pub steps: Vec<Step>,
 }
 
 #[derive(Debug, Deserialize)]
 #[serde(tag = "type")]
-pub enum CommandKind {
+pub enum Step {
     #[serde(rename = "command")]
     SingleCommand { command: String, args: Vec<String> },
 
