@@ -13,3 +13,4 @@ directories = "5.0.1"
 serde = { version = "1.0.164", features = ["derive"] }
 toml = "0.7.5"
 colored = "2.0.0"
+libc = { version = "0.2.147", default-features = false }

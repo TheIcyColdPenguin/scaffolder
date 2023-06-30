@@ -1,4 +1,6 @@
+use libc::system;
 use std::{
+    ffi::CString,
     fs,
     io::{self, Write},
     path::{Path, PathBuf},
@@ -174,6 +176,21 @@ impl CommandKind {
                     .stderr(Stdio::inherit())
                     .spawn()?
                     .wait()?;
+
+                Ok(())
+            }
+            CommandKind::MultiCommand { command } => {
+                println!("Running long command '{}'", command.green());
+                let c_command = CString::new(command.as_bytes())?;
+
+                let old_dir = std::env::current_dir()?;
+                let new_dir = PathBuf::from(project_location);
+
+                std::env::set_current_dir(new_dir)?;
+                unsafe {
+                    system(c_command.as_ptr());
+                }
+                std::env::set_current_dir(old_dir)?;
 
                 Ok(())
             }

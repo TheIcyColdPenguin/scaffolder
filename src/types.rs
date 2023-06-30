@@ -53,6 +53,9 @@ pub enum CommandKind {
     #[serde(rename = "command")]
     SingleCommand { command: String, args: Vec<String> },
 
+    #[serde(rename = "multicommand")]
+    MultiCommand { command: String },
+
     #[serde(rename = "copy")]
     CopyFile { src_file: String, dest_file: String },
 
