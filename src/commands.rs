@@ -68,6 +68,8 @@ impl App {
             step.run(&premade_dir, &template_dir, location)?;
         }
 
+        println!("Finished scaffolding your new {} project!", name.green());
+
         Ok(())
     }
 
