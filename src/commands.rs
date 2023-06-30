@@ -3,7 +3,7 @@ use std::{
     ffi::CString,
     fs,
     io::{self, Write},
-    path::{Path, PathBuf},
+    path::Path,
     process::{exit, Command, Stdio},
 };
 
@@ -112,8 +112,8 @@ impl CommandKind {
                 src_file,
                 dest_file,
             } => {
-                let src = PathBuf::from(premade_location).join(src_file);
-                let dest = PathBuf::from(project_location).join(dest_file);
+                let src = premade_location.join(src_file);
+                let dest = project_location.join(dest_file);
 
                 println!(
                     "Copying '{}' to '{}'.",
@@ -127,7 +127,7 @@ impl CommandKind {
                 Ok(())
             }
             CommandKind::CreateFile { file, contents } => {
-                let dest = PathBuf::from(project_location).join(file);
+                let dest = project_location.join(file);
 
                 println!("Creating file '{}'.", dest.to_string_lossy().green(),);
 
@@ -141,8 +141,8 @@ impl CommandKind {
                 dest_file,
                 replacements,
             } => {
-                let src = PathBuf::from(template_location).join(template);
-                let dest = PathBuf::from(project_location).join(dest_file);
+                let src = template_location.join(template);
+                let dest = project_location.join(dest_file);
 
                 println!(
                     "Hydrating the '{}' template to '{}'.",
@@ -184,9 +184,8 @@ impl CommandKind {
                 let c_command = CString::new(command.as_bytes())?;
 
                 let old_dir = std::env::current_dir()?;
-                let new_dir = PathBuf::from(project_location);
 
-                std::env::set_current_dir(new_dir)?;
+                std::env::set_current_dir(project_location)?;
                 unsafe {
                     system(c_command.as_ptr());
                 }
@@ -195,7 +194,7 @@ impl CommandKind {
                 Ok(())
             }
             CommandKind::AppendFile { file, contents } => {
-                let dest = PathBuf::from(project_location).join(file);
+                let dest = project_location.join(file);
 
                 println!("Appending to file '{}'", dest.to_string_lossy().green());
 
@@ -207,7 +206,7 @@ impl CommandKind {
                 Ok(())
             }
             CommandKind::RemoveFile { file } => {
-                let file = PathBuf::from(project_location).join(file);
+                let file = project_location.join(file);
 
                 println!("Deleting file '{}'", file.to_string_lossy().green());
 
