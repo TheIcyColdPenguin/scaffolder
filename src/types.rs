@@ -48,7 +48,6 @@ pub struct ProjectScaffold {
 }
 
 #[derive(Debug, Deserialize)]
-#[serde(tag = "type")]
 pub enum Step {
     #[serde(rename = "command")]
     SingleCommand { command: String, args: Vec<String> },
@@ -57,12 +56,12 @@ pub enum Step {
     MultiCommand { command: String },
 
     #[serde(rename = "copy")]
-    CopyFile { src_file: String, dest_file: String },
+    CopyFile { from: String, to: String },
 
     #[serde(rename = "template")]
     TemplateFile {
         template: String,
-        dest_file: String,
+        file: String,
         replacements: HashMap<String, String>,
     },
 

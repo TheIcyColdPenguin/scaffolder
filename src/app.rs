@@ -1,6 +1,6 @@
 /*
 scaffolder config folder
-├───scaffolder.toml
+├───scaffolder.yml
 ├───templates
 │   ├───index.html
 │   └───package.json

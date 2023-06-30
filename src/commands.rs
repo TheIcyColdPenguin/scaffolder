@@ -110,16 +110,13 @@ impl Step {
         project_location: &Path,
     ) -> Result<(), Box<dyn std::error::Error>> {
         match self {
-            Step::CopyFile {
-                src_file,
-                dest_file,
-            } => {
-                let src = premade_location.join(src_file);
-                let dest = project_location.join(dest_file);
+            Step::CopyFile { from, to } => {
+                let src = premade_location.join(from);
+                let dest = project_location.join(to);
 
                 println!(
                     "Copying '{}' to '{}'.",
-                    src_file.green(),
+                    from.green(),
                     dest.to_string_lossy().green(),
                 );
 
@@ -140,11 +137,11 @@ impl Step {
             }
             Step::TemplateFile {
                 template,
-                dest_file,
+                file,
                 replacements,
             } => {
                 let src = template_location.join(template);
-                let dest = project_location.join(dest_file);
+                let dest = project_location.join(file);
 
                 println!(
                     "Hydrating the '{}' template to '{}'.",

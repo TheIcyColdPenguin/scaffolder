@@ -19,7 +19,7 @@ pub trait VerifyConfig {
         fs::create_dir_all(config_dir.join("templates"))?;
         fs::create_dir_all(config_dir.join("premades"))?;
 
-        let config_file_path = config_dir.join("scaffolder.toml");
+        let config_file_path = config_dir.join("scaffolder.yml");
         let config_file = fs::OpenOptions::new()
             .create_new(true)
             .append(true)
