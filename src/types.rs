@@ -63,6 +63,12 @@ pub enum CommandKind {
         replacements: HashMap<String, String>,
     },
 
+    #[serde(rename = "append")]
+    AppendFile { file: String, contents: String },
+
     #[serde(rename = "create")]
     CreateFile { file: String, contents: String },
+
+    #[serde(rename = "remove")]
+    RemoveFile { file: String },
 }

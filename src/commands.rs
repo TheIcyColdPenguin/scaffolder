@@ -177,6 +177,27 @@ impl CommandKind {
 
                 Ok(())
             }
+            CommandKind::AppendFile { file, contents } => {
+                let dest = PathBuf::from(project_location).join(file);
+
+                println!("Appending to file '{}'", dest.to_string_lossy().green());
+
+                fs::File::options()
+                    .append(true)
+                    .open(dest)?
+                    .write(contents.as_bytes())?;
+
+                Ok(())
+            }
+            CommandKind::RemoveFile { file } => {
+                let file = PathBuf::from(project_location).join(file);
+
+                println!("Deleting file {}", file.to_string_lossy().green());
+
+                fs::remove_file(file)?;
+
+                Ok(())
+            }
         }
     }
 }
