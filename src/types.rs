@@ -3,6 +3,8 @@ use std::{collections::HashMap, path::PathBuf};
 use clap::{Parser, Subcommand};
 use serde::Deserialize;
 
+pub type Result<T, E = dyn std::error::Error> = std::result::Result<T, Box<E>>;
+
 #[derive(Debug, Parser)]
 #[clap(author, version, about)]
 pub struct ScaffoldCliArgs {

@@ -3,10 +3,10 @@ use std::{fs, path::PathBuf};
 use colored::Colorize;
 use directories::ProjectDirs;
 
-use crate::types::ScaffoldCliArgs;
+use crate::types::{Result, ScaffoldCliArgs};
 
 pub trait VerifyConfig {
-    fn verify_config(args: &mut ScaffoldCliArgs) -> Result<PathBuf, Box<dyn std::error::Error>> {
+    fn verify_config(args: &mut ScaffoldCliArgs) -> Result<PathBuf> {
         let config_dir = match args.config {
             Some(ref config) => config.clone(),
 

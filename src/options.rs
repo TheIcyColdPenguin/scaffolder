@@ -1,6 +1,6 @@
 use std::{fs, path::PathBuf};
 
-use crate::types::{Projects, ScaffoldOptions};
+use crate::types::{Projects, Result, ScaffoldOptions};
 
 impl ScaffoldOptions {
     pub fn get_config_file_path(&self) -> PathBuf {
@@ -13,7 +13,7 @@ impl ScaffoldOptions {
         self.config.join("templates")
     }
 
-    pub fn parse_config_file(&self) -> Result<Projects, Box<dyn std::error::Error>> {
+    pub fn parse_config_file(&self) -> Result<Projects> {
         let file = fs::File::open(self.get_config_file_path())?;
         Ok(serde_yaml::from_reader(file)?)
     }

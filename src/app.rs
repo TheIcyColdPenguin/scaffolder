@@ -14,7 +14,7 @@ scaffolder config folder
 */
 
 use crate::{
-    types::{ScaffoldCliArgs, ScaffoldOptions},
+    types::{Result, ScaffoldCliArgs, ScaffoldOptions},
     verify_config::VerifyConfig,
 };
 
@@ -24,7 +24,7 @@ pub struct App {
 }
 
 impl App {
-    pub fn new(mut args: ScaffoldCliArgs) -> Result<App, Box<dyn std::error::Error>> {
+    pub fn new(mut args: ScaffoldCliArgs) -> Result<App> {
         let config = Self::verify_config(&mut args)?;
 
         Ok(App {

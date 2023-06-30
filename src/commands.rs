@@ -11,18 +11,18 @@ use colored::Colorize;
 
 use crate::{
     app::App,
-    types::{CliCommands, ProjectScaffold, Step},
+    types::{CliCommands, ProjectScaffold, Result, Step},
 };
 
 impl App {
-    pub fn process_command(&self) -> Result<(), Box<dyn std::error::Error>> {
+    pub fn process_command(&self) -> Result<()> {
         match &self.options.command {
             CliCommands::List => self.list_projects(),
             CliCommands::Create { name, location } => self.create(name, location),
         }
     }
 
-    fn list_projects(&self) -> Result<(), Box<dyn std::error::Error>> {
+    fn list_projects(&self) -> Result<()> {
         let projects = self.options.parse_config_file()?;
 
         match projects.projects {
@@ -58,7 +58,7 @@ impl App {
         Ok(())
     }
 
-    fn create(&self, name: &str, location: &Path) -> Result<(), Box<dyn std::error::Error>> {
+    fn create(&self, name: &str, location: &Path) -> Result<()> {
         Self::verify_location(location)?;
         let project = self.find_project(name)?;
         let premade_dir = self.options.get_premade_directory_path();
@@ -73,7 +73,7 @@ impl App {
         Ok(())
     }
 
-    fn find_project(&self, name: &str) -> Result<ProjectScaffold, Box<dyn std::error::Error>> {
+    fn find_project(&self, name: &str) -> Result<ProjectScaffold> {
         let projects = self.options.parse_config_file()?;
 
         let Some(projects) =  projects.projects else {
@@ -91,7 +91,7 @@ impl App {
         Ok(project)
     }
 
-    fn verify_location(location: &Path) -> Result<(), Box<dyn std::error::Error>> {
+    fn verify_location(location: &Path) -> Result<()> {
         fs::create_dir_all(location)?;
         if let Some(_) = fs::read_dir(location)?.next() {
             println!("{}", "The specified directory is not empty".red());
@@ -108,7 +108,7 @@ impl Step {
         premade_location: &Path,
         template_location: &Path,
         project_location: &Path,
-    ) -> Result<(), Box<dyn std::error::Error>> {
+    ) -> Result<()> {
         match self {
             Step::CopyFile { from, to } => {
                 let src = premade_location.join(from);
