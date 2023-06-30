@@ -209,7 +209,7 @@ impl CommandKind {
             CommandKind::RemoveFile { file } => {
                 let file = PathBuf::from(project_location).join(file);
 
-                println!("Deleting file {}", file.to_string_lossy().green());
+                println!("Deleting file '{}'", file.to_string_lossy().green());
 
                 fs::remove_file(file)?;
 
